@@ -1,0 +1,18 @@
+name: oscillatory-odyssey
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy=1.22.4
+  - matplotlib=3.5.3
+  - pandas=1.5.3
+  - scipy=1.8.1
+  - ipywidgets=7.6.5
+  - pillow=10.4.0
+  - pip
+  - pip:
+    - plotly==5.10.0
+    - imageio==2.35.1
+    - pydub==0.25.1
+    - kaleido==0.2.1

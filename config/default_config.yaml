@@ -1,0 +1,28 @@
+# Default configuration for the parametric pendulum simulation
+
+# Physical parameters
+g: 9.81                # Gravitational acceleration (m/s^2)
+L0: 2.0                # Base pendulum length (m)
+delta_L: 0.5           # Change in length during pumping (m)
+m: 30.0                # Mass (kg)
+damping: 0.1           # Damping coefficient
+
+# Pumping parameters
+pumping_freq: 1.0      # Frequency of length change (Hz)
+pumping_phase: 0.0     # Phase offset for pumping (radians)
+pumping_strategy: sinusoidal  # Strategy for length variation (sinusoidal, square, adaptive)
+standing_time: 0.2     # Fraction of half-period to stand (for square wave)
+pumping_amp_factor: 1.0 # Amplitude factor for pumping
+resonant_tuning: true  # Whether to tune pumping to resonant frequency
+adaptive_threshold: 0.1 # Threshold for adaptive pumping (radians)
+
+# Initial conditions
+theta0: 0.1            # Initial angle (radians)
+omega0: 0.0            # Initial angular velocity (radians/s)
+
+# Simulation parameters
+T: 30.0                # Total simulation time (s)
+dt: 0.05               # Time step for output (s)
+method: RK45           # Integration method (RK45, RK23, DOP853, Radau, BDF, LSODA)
+rtol: 1.0e-6           # Relative tolerance for solver
+atol: 1.0e-9           # Absolute tolerance for solver

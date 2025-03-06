@@ -1,0 +1,14 @@
+numpy==1.22.4
+matplotlib==3.5.3
+pandas==1.5.3
+scipy==1.8.1
+plotly==5.10.0
+ipywidgets==7.6.5
+pillow==10.4.0
+imageio==2.35.1
+pydub==0.25.1
+kaleido==0.2.1
+jupyter==1.0.0
+ipython==8.12.3
+ipykernel==6.14.0
+traitlets==5.14.3

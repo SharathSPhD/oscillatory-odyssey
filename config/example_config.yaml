@@ -1,0 +1,29 @@
+# Example configuration file for parametric pendulum simulation
+# This file can be customized to explore different swing behaviors
+
+# Physical parameters
+g: 9.81                # Gravitational acceleration (m/s^2)
+L0: 2.5                # Base pendulum length (m) - typical playground swing
+delta_L: 0.6           # Change in length during pumping (m) - reasonable for a child
+m: 35.0                # Mass (kg) - average child
+damping: 0.15          # Damping coefficient - realistic for a playground swing
+
+# Pumping parameters
+pumping_freq: 0.7      # Frequency of length change (Hz)
+pumping_phase: 0.0     # Phase offset for pumping (radians)
+pumping_strategy: adaptive  # Strategy for length variation (sinusoidal, square, adaptive)
+standing_time: 0.2     # Fraction of half-period to stand (for square wave)
+pumping_amp_factor: 1.0 # Amplitude factor for pumping
+resonant_tuning: true  # Whether to tune pumping to resonant frequency
+adaptive_threshold: 0.1 # Threshold for adaptive pumping (radians)
+
+# Initial conditions
+theta0: 0.2            # Initial angle (radians) - small push to start
+omega0: 0.0            # Initial angular velocity (radians/s)
+
+# Simulation parameters
+T: 30.0                # Total simulation time (s)
+dt: 0.05               # Time step for output (s)
+method: RK45           # Integration method (RK45, RK23, DOP853, Radau, BDF, LSODA)
+rtol: 1.0e-6           # Relative tolerance for solver
+atol: 1.0e-9           # Absolute tolerance for solver

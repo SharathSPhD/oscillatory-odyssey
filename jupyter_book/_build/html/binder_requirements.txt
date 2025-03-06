@@ -1,0 +1,12 @@
+# Requirements for Binder repository
+numpy
+matplotlib
+scipy
+plotly
+pandas
+ipywidgets>=7.0.0
+pillow
+sympy
+jupyter
+notebook
+jupyterlab

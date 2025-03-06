@@ -1,0 +1,14 @@
+
+# Configuration for launching with Binder
+runtime:
+  version: 3.10
+
+# Python dependencies installed using pip
+requirements:
+  - numpy
+  - matplotlib
+  - scipy
+  - plotly
+  - ipywidgets>=7.0.0
+  - pillow
+  - sympy

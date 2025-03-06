@@ -1,0 +1,21 @@
+name: oscillatory-odyssey
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  - numpy
+  - matplotlib
+  - scipy
+  - pandas
+  - ipywidgets
+  - plotly
+  - sympy
+  - ipympl
+  - pip:
+    - jupyter-book==0.13.1
+    - sphinx==4.5.0
+    - myst-parser==0.16.1
+    - myst-nb==0.13.2
+    - sphinx-thebe==0.1.0

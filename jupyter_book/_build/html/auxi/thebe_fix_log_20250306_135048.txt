@@ -1,0 +1,670 @@
+Thebe Fix Log - 2025-03-06T13:50:48.699804
+--------------------------------------------------
+
+Downloaded local copies of Thebe library
+Created debug page for isolated Thebe testing
+Found 26 HTML files
+
+Processing file: _build\html\genindex.html
+  Found 3 Thebe-related script tags
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: _static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\genindex.html
+
+Processing file: _build\html\intro.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: _static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\intro.html
+
+Processing file: _build\html\py-modindex.html
+  Found 3 Thebe-related script tags
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: _static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\py-modindex.html
+
+Processing file: _build\html\README.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: _static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\README.html
+
+Processing file: _build\html\search.html
+  Found 3 Thebe-related script tags
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: _static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\search.html
+
+Processing file: _build\html\debug\index.html
+  Found 2 Thebe-related script tags
+  Original Thebe script src: ../_static/thebe_versions/thebe-0.8.2.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\debug\index.html
+
+Processing file: _build\html\notebooks\bicycle_wheel_gyroscope_demo.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\bicycle_wheel_gyroscope_demo.html
+
+Processing file: _build\html\notebooks\foucault_pendulum_demo.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\foucault_pendulum_demo.html
+
+Processing file: _build\html\notebooks\hrg_demo.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\hrg_demo.html
+
+Processing file: _build\html\notebooks\oscillatory_odyssey_Part-1.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\oscillatory_odyssey_Part-1.html
+
+Processing file: _build\html\notebooks\oscillatory_odyssey_Part-2.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\oscillatory_odyssey_Part-2.html
+
+Processing file: _build\html\notebooks\oscillatory_odyssey_Part-3.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\oscillatory_odyssey_Part-3.html
+
+Processing file: _build\html\notebooks\parametric_swing_demo.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\parametric_swing_demo.html
+
+Processing file: _build\html\notebooks\ring_laser_gyro_demo.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\notebooks\ring_laser_gyro_demo.html
+
+Processing file: _build\html\oscillatory_odyssey\intro.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\oscillatory_odyssey\intro.html
+
+Processing file: _build\html\oscillatory_odyssey\pendulum_api.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\oscillatory_odyssey\pendulum_api.html
+
+Processing file: _build\html\oscillatory_odyssey\user_guide.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\oscillatory_odyssey\user_guide.html
+
+Processing file: _build\html\oscillatory_odyssey\utils_api.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\oscillatory_odyssey\utils_api.html
+
+Processing file: _build\html\oscillatory_odyssey\visualization_api.html
+  Found 4 Thebe-related script tags
+  Original Thebe config:
+
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    
+  Updated Thebe config to include debug mode and additional options
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\oscillatory_odyssey\visualization_api.html
+
+Processing file: _build\html\_modules\index.html
+  Found 3 Thebe-related script tags
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\_modules\index.html
+
+Processing file: _build\html\_modules\oscillatory_odyssey\pendulum.html
+  Found 3 Thebe-related script tags
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\_modules\oscillatory_odyssey\pendulum.html
+
+Processing file: _build\html\_modules\oscillatory_odyssey\utils.html
+  Found 3 Thebe-related script tags
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\_modules\oscillatory_odyssey\utils.html
+
+Processing file: _build\html\_modules\oscillatory_odyssey\visualization.html
+  Found 3 Thebe-related script tags
+  Original Thebe script src: ../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe script src: ../../_static/sphinx-thebe.js
+  Updated to use local Thebe version: ../_static/thebe_versions/thebe-0.8.2.js
+  Original Thebe selector script:
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+
+  Updated Thebe selectors with expanded options and added debug logging
+  Added explicit Thebe initialization script
+  Updated Thebe configuration in _build\html\_modules\oscillatory_odyssey\visualization.html
+
+Updated Thebe configuration in 23 HTML files
+Created enhanced thebelab-helper.js with error handling and diagnostics in _build\html\_static
+Created direct Thebe tester page at _build\html\thebe_tester.html
+Created troubleshooting guide at _build\html\THEBE_TROUBLESHOOTING.md

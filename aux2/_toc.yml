@@ -1,0 +1,38 @@
+# Table of Contents file for Jupyter Book
+format: jb-book
+root: README
+
+chapters:
+- file: oscillatory_odyssey/intro
+  title: Introduction to Parametric Pendulums
+  
+- file: notebooks/parametric_swing_demo
+  title: Parametric Swing Demonstration
+
+- file: notebooks/physics_background
+  title: Physics Background
+  sections:
+  - file: notebooks/pendulum_equations
+    title: Pendulum Equations
+  - file: notebooks/parametric_resonance
+    title: Parametric Resonance
+  - file: notebooks/playground_physics
+    title: Playground Physics
+
+- file: notebooks/examples
+  title: Example Applications
+  sections:
+  - file: notebooks/playground_swing
+    title: Playground Swing
+  - file: notebooks/foucault_pendulum
+    title: Foucault Pendulum
+  
+- file: notebooks/api_reference
+  title: API Reference
+  sections:
+  - file: oscillatory_odyssey/pendulum_api
+    title: Pendulum Module
+  - file: oscillatory_odyssey/visualization_api
+    title: Visualization Module
+  - file: oscillatory_odyssey/utils_api
+    title: Utilities Module

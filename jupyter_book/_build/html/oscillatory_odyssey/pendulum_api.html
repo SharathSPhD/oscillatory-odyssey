@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<!-- Patched Thebe loader -->
+<script>
+// Add the patched Thebe loader
+document.addEventListener('DOMContentLoaded', function() {
+    const script = document.createElement('script');
+    script.src = '../_static/thebe-patched/thebe-loader.js';
+    document.head.appendChild(script);
+    
+    // Disable standard Thebe initialization to avoid conflicts
+    window.thebe_originally_defined = true;
+});
+</script>
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pendulum Module API Reference — Oscillatory Odyssey</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/jupyter-sphinx.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/thebelab.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" rel="preload"/>
+<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" rel="preload"/>
+<script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/clipboard.min.js"></script>
+<script src="../_static/copybutton.js"></script>
+<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../_static/design-tabs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+<script>
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = "div.cell, div.highlight pre, pre.highlight, pre, .thebe"
+const thebe_selector_input = "pre, .highlight-python pre, pre.python"
+const thebe_selector_output = "div.output"
+</script>
+<script async="async" src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'oscillatory_odyssey/pendulum_api';</script>
+<link href="/oscillatory-odyssey/oscillatory_odyssey/pendulum_api.html" rel="canonical"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<script defer="True" src="../_static/thebe-cell-fixer.js"></script><script>
+// Patched initThebe function
+function initThebe() {
+  console.log("Patched initThebe called");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Look for python code
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      startThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    startThebe();
+  }
+  
+  function startThebe() {
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "binder-examples/jupyter-stacks-datascience",
+        ref: "master",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Ready";
+    });
+    
+    console.log("Thebe initialized with patched function");
+  }
+}
+</script>
+<script>
+// Define a safer initThebeSBT function with the plotly-enabled repository
+window.initThebeSBT = function() {
+  console.log("Safe initThebeSBT called - using updated repository with plotly");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Check if it looks like Python
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      bootstrapThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    bootstrapThebe();
+  }
+  
+  function bootstrapThebe() {
+    console.log("Bootstrapping Thebe with updated repository");
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "pythondecal/plotly-dash-binder",
+        ref: "master",
+        binderUrl: "https://mybinder.org",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update button loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Connecting to Plotly-enabled Binder...";
+    });
+    
+    // Listen for status changes
+    thebelab.on("status", function(_, data) {
+      console.log("Thebe status:", data.status);
+      document.querySelectorAll(".loading-text").forEach(el => {
+        el.textContent = data.status === "ready" ? "Ready!" : "Status: " + data.status;
+      });
+    });
+  }
+  
+  return false; // Prevent default action
+};
+
+// Also patch the regular initThebe function for good measure
+window.initThebe = window.initThebeSBT;
+</script>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../intro.html">
+<p class="title logo__title">Oscillatory Odyssey</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Swing to Space</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-1.html">🌀 Oscillatory Odyssey Part-1: Swings to Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/parametric_swing_demo.html">Parametric Pendulum Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/foucault_pendulum_demo.html">Foucault Pendulum Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spin and Light</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-2.html">🌀 Oscillatory Odyssey Part-2: Spin and Light</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/bicycle_wheel_gyroscope_demo.html">Bicycle Wheel Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/ring_laser_gyro_demo.html">Ring Laser Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hrg_demo.html">Hemispherical Resonator Gyro Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Resonance Rising</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-3.html">🌀 Oscillatory Odyssey Part-3: Resonance Rising</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/YourUsername/oscillatory-odyssey" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/YourUsername/oscillatory-odyssey/issues/new?title=Issue%20on%20page%20%2Foscillatory_odyssey/pendulum_api.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/oscillatory_odyssey/pendulum_api.md" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Pendulum Module API Reference</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametricpendulum-class"><code class="docutils literal notranslate"><span class="pre">ParametricPendulum</span></code> Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-parameters">Configuration Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-parameters">Physical Parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pumping-parameters">Pumping Parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-conditions">Initial Conditions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-parameters">Simulation Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<div class="tex2jax_ignore mathjax_ignore section" id="module-oscillatory_odyssey.pendulum">
+<span id="pendulum-module-api-reference"></span><h1>Pendulum Module API Reference<a class="headerlink" href="#module-oscillatory_odyssey.pendulum" title="Permalink to this heading">#</a></h1>
+<p>Pendulum physics module for simulating parametric excitation in a swing.</p>
+<p>This module provides the core physics model for a parametric pendulum,
+which is a pendulum with a time-varying length.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oscillatory_odyssey.pendulum.</span></span><span class="sig-name descname"><span class="pre">ParametricPendulum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to simulate a parametric pendulum (swing) with variable length.</p>
+<p>This models a swing where the length changes over time, similar to how
+a person pumps a swing by standing and squatting at specific times.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.calculate_kinetic_energy">
+<span class="sig-name descname"><span class="pre">calculate_kinetic_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.calculate_kinetic_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.calculate_kinetic_energy" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the kinetic energy at each time point.</p>
+<dl class="simple">
+<dt>theta<span class="classifier">array_like</span></dt><dd><p>Angle array</p>
+</dd>
+<dt>omega<span class="classifier">array_like</span></dt><dd><p>Angular velocity array</p>
+</dd>
+<dt>length<span class="classifier">array_like</span></dt><dd><p>Pendulum length array</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>array_like</dt><dd><p>Kinetic energy at each time point</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.calculate_potential_energy">
+<span class="sig-name descname"><span class="pre">calculate_potential_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.calculate_potential_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.calculate_potential_energy" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the potential energy at each time point.</p>
+<dl class="simple">
+<dt>theta<span class="classifier">array_like</span></dt><dd><p>Angle array</p>
+</dd>
+<dt>length<span class="classifier">array_like</span></dt><dd><p>Pendulum length array</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>array_like</dt><dd><p>Potential energy at each time point</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.length_derivative">
+<span class="sig-name descname"><span class="pre">length_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.length_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.length_derivative" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the derivative of pendulum length at time t.</p>
+<dl class="simple">
+<dt>t<span class="classifier">float</span></dt><dd><p>Time (seconds)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>float</dt><dd><p>Rate of change of pendulum length at time t</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.length_function">
+<span class="sig-name descname"><span class="pre">length_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.length_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.length_function" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the pendulum length at time t based on the pumping strategy.</p>
+<dl class="simple">
+<dt>t<span class="classifier">float</span></dt><dd><p>Time (seconds)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>float</dt><dd><p>Pendulum length at time t</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.load_config">
+<span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.load_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Load parameters from a configuration file.</p>
+<dl class="simple">
+<dt>config_path<span class="classifier">str</span></dt><dd><p>Path to the configuration file (YAML or JSON)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.ode_system">
+<span class="sig-name descname"><span class="pre">ode_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.ode_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.ode_system" title="Permalink to this definition">#</a></dt>
+<dd><p>Define the ODE system for the parametric pendulum.</p>
+<dl class="simple">
+<dt>t<span class="classifier">float</span></dt><dd><p>Time (seconds)</p>
+</dd>
+<dt>y<span class="classifier">array_like</span></dt><dd><p>State vector [theta, omega]</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>array_like</dt><dd><p>Derivatives [dtheta/dt, domega/dt]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.save_config">
+<span class="sig-name descname"><span class="pre">save_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'swing_config.yaml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.save_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.save_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Save current parameters to a configuration file.</p>
+<dl class="simple">
+<dt>config_path<span class="classifier">str</span></dt><dd><p>Path to save the configuration file</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oscillatory_odyssey.pendulum.ParametricPendulum.simulate">
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/pendulum.html#ParametricPendulum.simulate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.pendulum.ParametricPendulum.simulate" title="Permalink to this definition">#</a></dt>
+<dd><p>Run the simulation of the parametric pendulum.</p>
+<dl class="simple">
+<dt>dict</dt><dd><p>Simulation results including time, theta, omega, and length arrays</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<div class="section" id="parametricpendulum-class">
+<h2><code class="docutils literal notranslate"><span class="pre">ParametricPendulum</span></code> Class<a class="headerlink" href="#parametricpendulum-class" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ParametricPendulum</span></code> class is the core of the Oscillatory Odyssey package. It models a pendulum with a time-varying length, similar to a playground swing being pumped by a child.</p>
+<div class="section" id="key-features">
+<h3>Key Features<a class="headerlink" href="#key-features" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Configurable physical parameters (length, mass, damping, etc.)</p></li>
+<li><p>Multiple pumping strategies (sinusoidal, square wave, adaptive)</p></li>
+<li><p>Energy calculation and analysis</p></li>
+<li><p>Integration with visualization tools</p></li>
+</ul>
+</div>
+<div class="section" id="usage-example">
+<h3>Usage Example<a class="headerlink" href="#usage-example" title="Permalink to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre class="thebe" data-executable="true" data-language="python"><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.pendulum</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParametricPendulum</span>
+
+<span class="c1"># Create a pendulum with default parameters</span>
+<span class="n">pendulum</span> <span class="o">=</span> <span class="n">ParametricPendulum</span><span class="p">()</span>
+
+<span class="c1"># Customize parameters</span>
+<span class="n">pendulum</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"L0"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.5</span>  <span class="c1"># Base length (m)</span>
+<span class="n">pendulum</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"delta_L"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># Length variation (m)</span>
+<span class="n">pendulum</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pumping_strategy"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"sinusoidal"</span>
+<span class="n">pendulum</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"resonant_tuning"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Use optimal frequency</span>
+
+<span class="c1"># Run simulation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pendulum</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="c1"># Access results</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">"theta"</span><span class="p">]</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">"total_energy"</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration-parameters">
+<h3>Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">ParametricPendulum</span></code> class accepts the following parameters:</p>
+<div class="section" id="physical-parameters">
+<h4>Physical Parameters<a class="headerlink" href="#physical-parameters" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">g</span></code>: Gravitational acceleration (m/s²)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">L0</span></code>: Base pendulum length (m)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">delta_L</span></code>: Change in length during pumping (m)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m</span></code>: Mass (kg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">damping</span></code>: Damping coefficient</p></li>
+</ul>
+</div>
+<div class="section" id="pumping-parameters">
+<h4>Pumping Parameters<a class="headerlink" href="#pumping-parameters" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pumping_freq</span></code>: Frequency of length change (Hz)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pumping_phase</span></code>: Phase offset for pumping (radians)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pumping_strategy</span></code>: Strategy for length variation (sinusoidal, square, adaptive)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">standing_time</span></code>: Fraction of half-period to stand (for square wave)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pumping_amp_factor</span></code>: Amplitude factor for pumping</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resonant_tuning</span></code>: Whether to tune pumping to resonant frequency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">adaptive_threshold</span></code>: Threshold for adaptive pumping (radians)</p></li>
+</ul>
+</div>
+<div class="section" id="initial-conditions">
+<h4>Initial Conditions<a class="headerlink" href="#initial-conditions" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">theta0</span></code>: Initial angle (radians)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">omega0</span></code>: Initial angular velocity (radians/s)</p></li>
+</ul>
+</div>
+<div class="section" id="simulation-parameters">
+<h4>Simulation Parameters<a class="headerlink" href="#simulation-parameters" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">T</span></code>: Total simulation time (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code>: Time step for output (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: Integration method</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rtol</span></code>: Relative tolerance for solver</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">atol</span></code>: Absolute tolerance for solver</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<script type="text/x-thebe-config">{
+    "requestKernel": true,
+    "binderOptions": {
+        "repo": "pythondecal/plotly-dash-binder",
+        "ref": "master"
+    },
+    "codeMirrorConfig": {
+        "theme": "abcdef",
+        "mode": "python"
+    },
+    "kernelOptions": {
+        "name": "python3",
+        "path": "./notebooks"
+    },
+    "predefinedOutput": true,
+    "mountActivateWidget": true,
+    "stripPrompts": true,
+    "useKernelCaching": true,
+    "debug": true
+}</script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="prev-next-footer">
+<div class="prev-next-area">
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+<div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+<i class="fa-solid fa-list"></i> Contents
+  </div>
+<nav class="bd-toc-nav page-toc">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametricpendulum-class"><code class="docutils literal notranslate"><span class="pre">ParametricPendulum</span></code> Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-parameters">Configuration Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-parameters">Physical Parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pumping-parameters">Pumping Parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-conditions">Initial Conditions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-parameters">Simulation Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav></div>
+</div></div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Your Name
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>

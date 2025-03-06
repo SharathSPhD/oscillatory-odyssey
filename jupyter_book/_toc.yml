@@ -1,0 +1,19 @@
+format: jb-book
+root: intro
+parts:
+  - caption: Swing to Space
+    chapters:
+    - file: notebooks/oscillatory_odyssey_Part-1
+    - file: notebooks/parametric_swing_demo
+    - file: notebooks/foucault_pendulum_demo
+
+  - caption: Spin and Light
+    chapters:
+    - file: notebooks/oscillatory_odyssey_Part-2
+    - file: notebooks/bicycle_wheel_gyroscope_demo
+    - file: notebooks/ring_laser_gyro_demo
+    - file: notebooks/hrg_demo
+
+  - caption: Resonance Rising
+    chapters:
+    - file: notebooks/oscillatory_odyssey_Part-3

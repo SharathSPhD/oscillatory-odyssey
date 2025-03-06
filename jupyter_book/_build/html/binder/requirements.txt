@@ -1,0 +1,7 @@
+numpy
+matplotlib
+scipy
+plotly
+ipywidgets>=7.0.0
+pillow
+sympy

@@ -1,0 +1,37 @@
+name: deploy-book
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # fetch all history to ensure proper build
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r jupyter_book/requirements.txt
+        pip install -e .  # Install the oscillatory_odyssey package
+        
+    - name: Build the book
+      run: |
+        cd jupyter_book
+        jupyter-book build .
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./jupyter_book/_build/html
+        force_orphan: true  # make the gh-pages branch with only the latest content

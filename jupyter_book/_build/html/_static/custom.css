@@ -1,0 +1,23 @@
+/* Fix for video display issues */
+video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+/* Make Thebe live code button more prominent */
+.thebe-launch-button {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+    font-weight: bold !important;
+    padding: 0.5em 1em !important;
+    border-radius: 0.25em !important;
+    transition: all 0.3s ease !important;
+}
+
+.thebe-launch-button:hover {
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+}

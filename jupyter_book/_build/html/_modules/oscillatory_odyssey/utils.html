@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<!-- Patched Thebe loader -->
+<script>
+// Add the patched Thebe loader
+document.addEventListener('DOMContentLoaded', function() {
+    const script = document.createElement('script');
+    script.src = '../_static/thebe-patched/thebe-loader.js';
+    document.head.appendChild(script);
+    
+    // Disable standard Thebe initialization to avoid conflicts
+    window.thebe_originally_defined = true;
+});
+</script>
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>oscillatory_odyssey.utils — Oscillatory Odyssey</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/jupyter-sphinx.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/thebelab.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" rel="preload"/>
+<link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" rel="preload"/>
+<script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../../_static/design-tabs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+<script>
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = "div.cell, div.highlight pre, pre.highlight, pre, .thebe"
+const thebe_selector_input = "pre, .highlight-python pre, pre.python"
+const thebe_selector_output = "div.output"
+</script>
+<script async="async" src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/oscillatory_odyssey/utils';</script>
+<link href="/oscillatory-odyssey/_modules/oscillatory_odyssey/utils.html" rel="canonical"/>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<script defer="True" src="../../_static/thebe-cell-fixer.js"></script><script>
+// Patched initThebe function
+function initThebe() {
+  console.log("Patched initThebe called");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Look for python code
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      startThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    startThebe();
+  }
+  
+  function startThebe() {
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "binder-examples/jupyter-stacks-datascience",
+        ref: "master",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Ready";
+    });
+    
+    console.log("Thebe initialized with patched function");
+  }
+}
+</script>
+<script>
+// Define a safer initThebeSBT function with the plotly-enabled repository
+window.initThebeSBT = function() {
+  console.log("Safe initThebeSBT called - using updated repository with plotly");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Check if it looks like Python
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      bootstrapThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    bootstrapThebe();
+  }
+  
+  function bootstrapThebe() {
+    console.log("Bootstrapping Thebe with updated repository");
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "pythondecal/plotly-dash-binder",
+        ref: "master",
+        binderUrl: "https://mybinder.org",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update button loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Connecting to Plotly-enabled Binder...";
+    });
+    
+    // Listen for status changes
+    thebelab.on("status", function(_, data) {
+      console.log("Thebe status:", data.status);
+      document.querySelectorAll(".loading-text").forEach(el => {
+        el.textContent = data.status === "ready" ? "Ready!" : "Status: " + data.status;
+      });
+    });
+  }
+  
+  return false; // Prevent default action
+};
+
+// Also patch the regular initThebe function for good measure
+window.initThebe = window.initThebeSBT;
+</script>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../../intro.html">
+<p class="title logo__title">Oscillatory Odyssey</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Swing to Space</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/oscillatory_odyssey_Part-1.html">🌀 Oscillatory Odyssey Part-1: Swings to Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/parametric_swing_demo.html">Parametric Pendulum Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/foucault_pendulum_demo.html">Foucault Pendulum Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spin and Light</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/oscillatory_odyssey_Part-2.html">🌀 Oscillatory Odyssey Part-2: Spin and Light</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/bicycle_wheel_gyroscope_demo.html">Bicycle Wheel Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ring_laser_gyro_demo.html">Ring Laser Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/hrg_demo.html">Hemispherical Resonator Gyro Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Resonance Rising</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/oscillatory_odyssey_Part-3.html">🌀 Oscillatory Odyssey Part-3: Resonance Rising</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/YourUsername/oscillatory-odyssey" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/YourUsername/oscillatory-odyssey/issues/new?title=Issue%20on%20page%20%2F_modules/oscillatory_odyssey/utils.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1></h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<h1>Source code for oscillatory_odyssey.utils</h1><div class="highlight"><pre data-executable="true" data-language="python">
+<span></span><span class="sd">"""</span>
+<span class="sd">Utility functions for the oscillatory_odyssey package.</span>
+
+<span class="sd">This module provides helper functions for configuration management,</span>
+<span class="sd">data processing, and other common tasks.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+
+<div class="viewcode-block" id="save_config"><a class="viewcode-back" href="../../oscillatory_odyssey/utils_api.html#oscillatory_odyssey.utils.save_config">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">save_config</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">'config.yaml'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Save a configuration dictionary to a file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    params : dict</span>
+<span class="sd">        Dictionary of parameters to save</span>
+<span class="sd">    filename : str, optional</span>
+<span class="sd">        Filename to save the configuration to</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if successful, False otherwise</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Create directory if it doesn't exist</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">directory</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        
+        <span class="c1"># Determine file type and save accordingly</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'.json'</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'.yaml'</span><span class="p">,</span> <span class="s1">'.yml'</span><span class="p">]:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported file format: </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">. Use .yaml, .yml, or .json"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Configuration saved to </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error saving configuration: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="load_config"><a class="viewcode-back" href="../../oscillatory_odyssey/utils_api.html#oscillatory_odyssey.utils.load_config">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Load a configuration dictionary from a file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Path to the configuration file</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    dict or None</span>
+<span class="sd">        Dictionary of parameters if successful, None otherwise</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Config file not found: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        
+        <span class="n">_</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'.json'</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'.yaml'</span><span class="p">,</span> <span class="s1">'.yml'</span><span class="p">]:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported file format: </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">. Use .yaml, .yml, or .json"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error loading configuration: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="generate_example_configs"><a class="viewcode-back" href="../../oscillatory_odyssey/utils_api.html#oscillatory_odyssey.utils.generate_example_configs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">generate_example_configs</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="s1">'config'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Generate example configuration files for different scenarios.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    base_dir : str, optional</span>
+<span class="sd">        Directory to save the configuration files</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of saved configuration filenames</span>
+<span class="sd">    """</span>
+    <span class="c1"># Create directory if it doesn't exist</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">base_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
+    
+    <span class="c1"># Basic configuration (default values)</span>
+    <span class="n">basic_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"g"</span><span class="p">:</span> <span class="mf">9.81</span><span class="p">,</span>                <span class="c1"># Gravitational acceleration (m/s^2)</span>
+        <span class="s2">"L0"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>                <span class="c1"># Base pendulum length (m)</span>
+        <span class="s2">"delta_L"</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>           <span class="c1"># Change in length during pumping (m)</span>
+        <span class="s2">"m"</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>                <span class="c1"># Mass (kg)</span>
+        <span class="s2">"damping"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>           <span class="c1"># Damping coefficient</span>
+        <span class="s2">"pumping_freq"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>      <span class="c1"># Frequency of length change (Hz)</span>
+        <span class="s2">"pumping_phase"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>     <span class="c1"># Phase offset for pumping (radians)</span>
+        <span class="s2">"theta0"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>            <span class="c1"># Initial angle (radians)</span>
+        <span class="s2">"omega0"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>            <span class="c1"># Initial angular velocity (radians/s)</span>
+        <span class="s2">"T"</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>                <span class="c1"># Total simulation time (s)</span>
+        <span class="s2">"dt"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>               <span class="c1"># Time step for output (s)</span>
+        <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"RK45"</span><span class="p">,</span>         <span class="c1"># Integration method</span>
+        <span class="s2">"rtol"</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span>             <span class="c1"># Relative tolerance for solver</span>
+        <span class="s2">"atol"</span><span class="p">:</span> <span class="mf">1e-9</span><span class="p">,</span>             <span class="c1"># Absolute tolerance for solver</span>
+        <span class="s2">"pumping_strategy"</span><span class="p">:</span> <span class="s2">"sinusoidal"</span><span class="p">,</span>  <span class="c1"># Strategy for length variation</span>
+        <span class="s2">"standing_time"</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>     <span class="c1"># Fraction of half-period to stand (for square wave)</span>
+        <span class="s2">"pumping_amp_factor"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="c1"># Amplitude factor for pumping</span>
+        <span class="s2">"resonant_tuning"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Whether to tune pumping to resonant frequency</span>
+        <span class="s2">"adaptive_threshold"</span><span class="p">:</span> <span class="mf">0.1</span> <span class="c1"># Threshold for adaptive pumping (radians)</span>
+    <span class="p">}</span>
+    
+    <span class="c1"># Resonant excitation (optimal frequency)</span>
+    <span class="n">resonant_config</span> <span class="o">=</span> <span class="n">basic_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">resonant_config</span><span class="p">[</span><span class="s2">"pumping_freq"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Will be overridden by resonant_tuning</span>
+    <span class="n">resonant_config</span><span class="p">[</span><span class="s2">"resonant_tuning"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">resonant_config</span><span class="p">[</span><span class="s2">"T"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">60.0</span>  <span class="c1"># Longer simulation to see effect</span>
+    
+    <span class="c1"># High damping</span>
+    <span class="n">damped_config</span> <span class="o">=</span> <span class="n">basic_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">damped_config</span><span class="p">[</span><span class="s2">"damping"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">damped_config</span><span class="p">[</span><span class="s2">"delta_L"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Increase pumping to overcome damping</span>
+    
+    <span class="c1"># Square wave pumping</span>
+    <span class="n">square_config</span> <span class="o">=</span> <span class="n">basic_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">square_config</span><span class="p">[</span><span class="s2">"pumping_strategy"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"square"</span>
+    <span class="n">square_config</span><span class="p">[</span><span class="s2">"standing_time"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2</span>
+    
+    <span class="c1"># Adaptive pumping</span>
+    <span class="n">adaptive_config</span> <span class="o">=</span> <span class="n">basic_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">adaptive_config</span><span class="p">[</span><span class="s2">"pumping_strategy"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"adaptive"</span>
+    <span class="n">adaptive_config</span><span class="p">[</span><span class="s2">"adaptive_threshold"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">adaptive_config</span><span class="p">[</span><span class="s2">"theta0"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2</span>  <span class="c1"># Start with a larger angle</span>
+    
+    <span class="c1"># Playground swing</span>
+    <span class="n">playground_config</span> <span class="o">=</span> <span class="n">basic_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">playground_config</span><span class="p">[</span><span class="s2">"L0"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.0</span>  <span class="c1"># Longer swing</span>
+    <span class="n">playground_config</span><span class="p">[</span><span class="s2">"delta_L"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># Larger change in length</span>
+    <span class="n">playground_config</span><span class="p">[</span><span class="s2">"m"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">35.0</span>  <span class="c1"># Child mass</span>
+    <span class="n">playground_config</span><span class="p">[</span><span class="s2">"damping"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># Realistic damping</span>
+    <span class="n">playground_config</span><span class="p">[</span><span class="s2">"theta0"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.3</span>  <span class="c1"># Start with a push</span>
+    
+    <span class="c1"># Foucault pendulum like</span>
+    <span class="n">foucault_config</span> <span class="o">=</span> <span class="n">basic_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">foucault_config</span><span class="p">[</span><span class="s2">"L0"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">10.0</span>  <span class="c1"># Long pendulum</span>
+    <span class="n">foucault_config</span><span class="p">[</span><span class="s2">"delta_L"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># No length change</span>
+    <span class="n">foucault_config</span><span class="p">[</span><span class="s2">"damping"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># Low damping</span>
+    <span class="n">foucault_config</span><span class="p">[</span><span class="s2">"theta0"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2</span>  <span class="c1"># Initial angle</span>
+    <span class="n">foucault_config</span><span class="p">[</span><span class="s2">"pumping_freq"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># No pumping</span>
+    <span class="n">foucault_config</span><span class="p">[</span><span class="s2">"T"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">120.0</span>  <span class="c1"># Long simulation</span>
+    
+    <span class="c1"># Save all configurations</span>
+    <span class="n">configs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"default_config.yaml"</span><span class="p">:</span> <span class="n">basic_config</span><span class="p">,</span>
+        <span class="s2">"resonant_config.yaml"</span><span class="p">:</span> <span class="n">resonant_config</span><span class="p">,</span>
+        <span class="s2">"damped_config.yaml"</span><span class="p">:</span> <span class="n">damped_config</span><span class="p">,</span>
+        <span class="s2">"square_config.yaml"</span><span class="p">:</span> <span class="n">square_config</span><span class="p">,</span>
+        <span class="s2">"adaptive_config.yaml"</span><span class="p">:</span> <span class="n">adaptive_config</span><span class="p">,</span>
+        <span class="s2">"playground_config.yaml"</span><span class="p">:</span> <span class="n">playground_config</span><span class="p">,</span>
+        <span class="s2">"foucault_config.yaml"</span><span class="p">:</span> <span class="n">foucault_config</span>
+    <span class="p">}</span>
+    
+    <span class="n">saved_files</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">configs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
+            <span class="n">saved_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">saved_files</span></div>
+
+
+<div class="viewcode-block" id="export_results"><a class="viewcode-back" href="../../oscillatory_odyssey/utils_api.html#oscillatory_odyssey.utils.export_results">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_results</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">'simulation_results.npz'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Export simulation results to a file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    results : dict</span>
+<span class="sd">        Dictionary of simulation results</span>
+<span class="sd">    filename : str, optional</span>
+<span class="sd">        Filename to save the results to</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if successful, False otherwise</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Create directory if it doesn't exist</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">directory</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        
+        <span class="c1"># Save the results using numpy's compressed format</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">results</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Results saved to </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error exporting results: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="import_results"><a class="viewcode-back" href="../../oscillatory_odyssey/utils_api.html#oscillatory_odyssey.utils.import_results">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">import_results</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Import simulation results from a file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Path to the results file</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    dict or None</span>
+<span class="sd">        Dictionary of simulation results if successful, None otherwise</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Results file not found: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        
+        <span class="c1"># Load the results</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        
+        <span class="c1"># Convert to dictionary</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">results</span>
+    
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error importing results: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="calculate_parametric_resonance_frequency"><a class="viewcode-back" href="../../oscillatory_odyssey/utils_api.html#oscillatory_odyssey.utils.calculate_parametric_resonance_frequency">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_parametric_resonance_frequency</span><span class="p">(</span><span class="n">L0</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">9.81</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Calculate the parametric resonance frequency for a pendulum.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    L0 : float</span>
+<span class="sd">        Base length of the pendulum (m)</span>
+<span class="sd">    g : float, optional</span>
+<span class="sd">        Gravitational acceleration (m/s^2)</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    float</span>
+<span class="sd">        Parametric resonance frequency (Hz)</span>
+<span class="sd">    """</span>
+    <span class="c1"># Natural frequency (rad/s)</span>
+    <span class="n">omega_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">g</span> <span class="o">/</span> <span class="n">L0</span><span class="p">)</span>
+    
+    <span class="c1"># For parametric resonance, pumping at twice the natural frequency is optimal</span>
+    <span class="c1"># Convert from rad/s to Hz</span>
+    <span class="k">return</span> <span class="n">omega_n</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="c1"># Generate example configuration files</span>
+    <span class="n">saved_files</span> <span class="o">=</span> <span class="n">generate_example_configs</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generated </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">saved_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> configuration files."</span><span class="p">)</span>
+    
+    <span class="c1"># Test calculation of parametric resonance frequency</span>
+    <span class="n">L0</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># m</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">calculate_parametric_resonance_frequency</span><span class="p">(</span><span class="n">L0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parametric resonance frequency for L0=</span><span class="si">{</span><span class="n">L0</span><span class="si">}</span><span class="s2">m: </span><span class="si">{</span><span class="n">freq</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> Hz"</span><span class="p">)</span>
+</pre></div>
+</article>
+<footer class="prev-next-footer">
+<div class="prev-next-area">
+</div>
+</footer>
+</div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Your Name
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>
