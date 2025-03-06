@@ -1,0 +1,645 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<!-- Patched Thebe loader -->
+<script>
+// Add the patched Thebe loader
+document.addEventListener('DOMContentLoaded', function() {
+    const script = document.createElement('script');
+    script.src = '../_static/thebe-patched/thebe-loader.js';
+    document.head.appendChild(script);
+    
+    // Disable standard Thebe initialization to avoid conflicts
+    window.thebe_originally_defined = true;
+});
+</script>
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Interactive Parametric Pendulum Simulation Guide — Oscillatory Odyssey</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/jupyter-sphinx.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/thebelab.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" rel="preload"/>
+<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" rel="preload"/>
+<script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/clipboard.min.js"></script>
+<script src="../_static/copybutton.js"></script>
+<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../_static/design-tabs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+<script>
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = "div.cell, div.highlight pre, pre.highlight, pre, .thebe"
+const thebe_selector_input = "pre, .highlight-python pre, pre.python"
+const thebe_selector_output = "div.output"
+</script>
+<script async="async" src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'oscillatory_odyssey/user_guide';</script>
+<link href="/oscillatory-odyssey/oscillatory_odyssey/user_guide.html" rel="canonical"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<script defer="True" src="../_static/thebe-cell-fixer.js"></script><script>
+// Patched initThebe function
+function initThebe() {
+  console.log("Patched initThebe called");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Look for python code
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      startThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    startThebe();
+  }
+  
+  function startThebe() {
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "binder-examples/jupyter-stacks-datascience",
+        ref: "master",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Ready";
+    });
+    
+    console.log("Thebe initialized with patched function");
+  }
+}
+</script>
+<script>
+// Define a safer initThebeSBT function with the plotly-enabled repository
+window.initThebeSBT = function() {
+  console.log("Safe initThebeSBT called - using updated repository with plotly");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Check if it looks like Python
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      bootstrapThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    bootstrapThebe();
+  }
+  
+  function bootstrapThebe() {
+    console.log("Bootstrapping Thebe with updated repository");
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "pythondecal/plotly-dash-binder",
+        ref: "master",
+        binderUrl: "https://mybinder.org",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update button loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Connecting to Plotly-enabled Binder...";
+    });
+    
+    // Listen for status changes
+    thebelab.on("status", function(_, data) {
+      console.log("Thebe status:", data.status);
+      document.querySelectorAll(".loading-text").forEach(el => {
+        el.textContent = data.status === "ready" ? "Ready!" : "Status: " + data.status;
+      });
+    });
+  }
+  
+  return false; // Prevent default action
+};
+
+// Also patch the regular initThebe function for good measure
+window.initThebe = window.initThebeSBT;
+</script>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../intro.html">
+<p class="title logo__title">Oscillatory Odyssey</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Swing to Space</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-1.html">🌀 Oscillatory Odyssey Part-1: Swings to Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/parametric_swing_demo.html">Parametric Pendulum Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/foucault_pendulum_demo.html">Foucault Pendulum Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spin and Light</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-2.html">🌀 Oscillatory Odyssey Part-2: Spin and Light</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/bicycle_wheel_gyroscope_demo.html">Bicycle Wheel Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/ring_laser_gyro_demo.html">Ring Laser Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hrg_demo.html">Hemispherical Resonator Gyro Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Resonance Rising</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-3.html">🌀 Oscillatory Odyssey Part-3: Resonance Rising</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/SharathSPhD/oscillatory-odyssey" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/SharathSPhD/oscillatory-odyssey/issues/new?title=Issue%20on%20page%20%2Foscillatory_odyssey/user_guide.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/oscillatory_odyssey/user_guide.md" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Interactive Parametric Pendulum Simulation Guide</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-controls">Parameter Controls</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-conditions">Initial Conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pumping-parameters">Pumping Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resonance-selection">Resonance Selection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-controls">Simulation Controls</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#buttons">Buttons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#animation-speed">Animation Speed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-plots">Understanding the Plots</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pendulum-animation-top-left">Pendulum Animation (Top Left)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-plot-top-right">Phase Plot (Top Right)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-bottom-left">Time Series (Bottom Left)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-plot-bottom-right">Energy Plot (Bottom Right)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-understanding-parametric-resonance">Tips for Understanding Parametric Resonance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-experiments">Common Experiments</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<div class="tex2jax_ignore mathjax_ignore section" id="interactive-parametric-pendulum-simulation-guide">
+<h1>Interactive Parametric Pendulum Simulation Guide<a class="headerlink" href="#interactive-parametric-pendulum-simulation-guide" title="Permalink to this heading">#</a></h1>
+<div class="section" id="parameter-controls">
+<h2>Parameter Controls<a class="headerlink" href="#parameter-controls" title="Permalink to this heading">#</a></h2>
+<div class="section" id="initial-conditions">
+<h3>Initial Conditions<a class="headerlink" href="#initial-conditions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Initial angle (rad)</strong>: Starting angle of the pendulum (0 = vertical down, π/2 = horizontal)</p></li>
+<li><p><strong>Base length (m)</strong>: Length of the pendulum from pivot to equilibrium position</p></li>
+<li><p><strong>Length change (m)</strong>: How much the length varies during pumping motion</p></li>
+<li><p><strong>Damping</strong>: Energy loss in the system (0 = no damping, higher values = more damping)</p></li>
+</ul>
+</div>
+<div class="section" id="pumping-parameters">
+<h3>Pumping Parameters<a class="headerlink" href="#pumping-parameters" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Pump freq (Hz)</strong>: Frequency of length oscillation</p></li>
+<li><p><strong>Pump strategy</strong>: How the length changes</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sinusoidal</span></code>: Smooth length variation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">square</span></code>: Sharp transitions between long and short</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">adaptive</span></code>: Length changes based on pendulum state</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="resonance-selection">
+<h3>Resonance Selection<a class="headerlink" href="#resonance-selection" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Off</strong>: Manual frequency selection</p></li>
+<li><p><strong>1st (2ω₀)</strong>: Principal parametric resonance - strongest amplitude growth</p></li>
+<li><p><strong>2nd (ω₀)</strong>: Secondary resonance - smaller but noticeable effect</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="simulation-controls">
+<h2>Simulation Controls<a class="headerlink" href="#simulation-controls" title="Permalink to this heading">#</a></h2>
+<div class="section" id="buttons">
+<h3>Buttons<a class="headerlink" href="#buttons" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Simulate</strong>: Run simulation with current parameters</p></li>
+<li><p><strong>Play/Pause</strong>: Start/stop animation</p></li>
+<li><p><strong>Reset</strong>: Return to initial state</p></li>
+<li><p><strong>Save Animation</strong>: Save interactive visualization as HTML</p></li>
+</ul>
+</div>
+<div class="section" id="animation-speed">
+<h3>Animation Speed<a class="headerlink" href="#animation-speed" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Slider controls playback speed of animation</p></li>
+<li><p>Higher values = faster playback</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="understanding-the-plots">
+<h2>Understanding the Plots<a class="headerlink" href="#understanding-the-plots" title="Permalink to this heading">#</a></h2>
+<div class="section" id="pendulum-animation-top-left">
+<h3>Pendulum Animation (Top Left)<a class="headerlink" href="#pendulum-animation-top-left" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Red dot = pendulum bob</p></li>
+<li><p>Gray line = pendulum rod</p></li>
+<li><p>Shows actual motion in real space</p></li>
+</ul>
+</div>
+<div class="section" id="phase-plot-top-right">
+<h3>Phase Plot (Top Right)<a class="headerlink" href="#phase-plot-top-right" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>X-axis: Angle</p></li>
+<li><p>Y-axis: Angular velocity</p></li>
+<li><p>Purple curve shows system trajectory</p></li>
+<li><p>Red star tracks current state</p></li>
+<li><p>Closed curves indicate energy conservation</p></li>
+<li><p>Spiraling indicates energy gain/loss</p></li>
+</ul>
+</div>
+<div class="section" id="time-series-bottom-left">
+<h3>Time Series (Bottom Left)<a class="headerlink" href="#time-series-bottom-left" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Shows angle vs time</p></li>
+<li><p>Blue line tracks pendulum’s angular position</p></li>
+<li><p>Red vertical line shows current time</p></li>
+</ul>
+</div>
+<div class="section" id="energy-plot-bottom-right">
+<h3>Energy Plot (Bottom Right)<a class="headerlink" href="#energy-plot-bottom-right" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Green = Kinetic energy</p></li>
+<li><p>Orange = Potential energy</p></li>
+<li><p>Black = Total energy</p></li>
+<li><p>Shows energy exchange and conservation</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="tips-for-understanding-parametric-resonance">
+<h2>Tips for Understanding Parametric Resonance<a class="headerlink" href="#tips-for-understanding-parametric-resonance" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Start with no damping and try the resonance settings:</p>
+<ul class="simple">
+<li><p>Use 1st resonance to see strong amplitude growth</p></li>
+<li><p>Compare with 2nd resonance or off-resonance behavior</p></li>
+</ul>
+</li>
+<li><p>Observe how different parameters affect motion:</p>
+<ul class="simple">
+<li><p>Length change affects pumping strength</p></li>
+<li><p>Damping limits maximum amplitude</p></li>
+<li><p>Base length determines natural frequency</p></li>
+</ul>
+</li>
+<li><p>Watch phase plot behavior:</p>
+<ul class="simple">
+<li><p>Expanding spirals = gaining energy</p></li>
+<li><p>Shrinking spirals = losing energy</p></li>
+<li><p>Stable orbit = balanced energy</p></li>
+</ul>
+</li>
+<li><p>Energy plot shows:</p>
+<ul class="simple">
+<li><p>Energy transfer between kinetic and potential</p></li>
+<li><p>Total energy growth during resonant pumping</p></li>
+<li><p>Energy loss due to damping</p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="common-experiments">
+<h2>Common Experiments<a class="headerlink" href="#common-experiments" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Find Natural Frequency</strong>:</p>
+<ul class="simple">
+<li><p>Set small initial angle</p></li>
+<li><p>No pumping or damping</p></li>
+<li><p>Observe oscillation period</p></li>
+</ul>
+</li>
+<li><p><strong>Parametric Resonance</strong>:</p>
+<ul class="simple">
+<li><p>Start with small angle</p></li>
+<li><p>Turn on 1st resonance</p></li>
+<li><p>Watch amplitude grow</p></li>
+</ul>
+</li>
+<li><p><strong>Damping Effects</strong>:</p>
+<ul class="simple">
+<li><p>Start with large angle</p></li>
+<li><p>Add damping</p></li>
+<li><p>Watch energy dissipate</p></li>
+</ul>
+</li>
+<li><p><strong>Pumping Strategies</strong>:</p>
+<ul class="simple">
+<li><p>Compare different strategies</p></li>
+<li><p>Observe energy input differences</p></li>
+<li><p>Look for most effective timing</p></li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<script type="text/x-thebe-config">{
+    "requestKernel": true,
+    "binderOptions": {
+        "repo": "pythondecal/plotly-dash-binder",
+        "ref": "master"
+    },
+    "codeMirrorConfig": {
+        "theme": "abcdef",
+        "mode": "python"
+    },
+    "kernelOptions": {
+        "name": "python3",
+        "path": "./notebooks"
+    },
+    "predefinedOutput": true,
+    "mountActivateWidget": true,
+    "stripPrompts": true,
+    "useKernelCaching": true,
+    "debug": true
+}</script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="prev-next-footer">
+<div class="prev-next-area">
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+<div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+<i class="fa-solid fa-list"></i> Contents
+  </div>
+<nav class="bd-toc-nav page-toc">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-controls">Parameter Controls</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-conditions">Initial Conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pumping-parameters">Pumping Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resonance-selection">Resonance Selection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-controls">Simulation Controls</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#buttons">Buttons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#animation-speed">Animation Speed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-plots">Understanding the Plots</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pendulum-animation-top-left">Pendulum Animation (Top Left)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-plot-top-right">Phase Plot (Top Right)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-bottom-left">Time Series (Bottom Left)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-plot-bottom-right">Energy Plot (Bottom Right)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-understanding-parametric-resonance">Tips for Understanding Parametric Resonance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-experiments">Common Experiments</a></li>
+</ul>
+</nav></div>
+</div></div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Your Name
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>

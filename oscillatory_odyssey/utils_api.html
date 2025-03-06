@@ -1,0 +1,682 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<!-- Patched Thebe loader -->
+<script>
+// Add the patched Thebe loader
+document.addEventListener('DOMContentLoaded', function() {
+    const script = document.createElement('script');
+    script.src = '../_static/thebe-patched/thebe-loader.js';
+    document.head.appendChild(script);
+    
+    // Disable standard Thebe initialization to avoid conflicts
+    window.thebe_originally_defined = true;
+});
+</script>
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Utilities Module API Reference — Oscillatory Odyssey</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/jupyter-sphinx.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/thebelab.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" rel="preload"/>
+<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" rel="preload"/>
+<script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/clipboard.min.js"></script>
+<script src="../_static/copybutton.js"></script>
+<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../_static/design-tabs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+<script>
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = "div.cell, div.highlight pre, pre.highlight, pre, .thebe"
+const thebe_selector_input = "pre, .highlight-python pre, pre.python"
+const thebe_selector_output = "div.output"
+</script>
+<script async="async" src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'oscillatory_odyssey/utils_api';</script>
+<link href="/oscillatory-odyssey/oscillatory_odyssey/utils_api.html" rel="canonical"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<script defer="True" src="../_static/thebe-cell-fixer.js"></script><script>
+// Patched initThebe function
+function initThebe() {
+  console.log("Patched initThebe called");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Look for python code
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      startThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    startThebe();
+  }
+  
+  function startThebe() {
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "binder-examples/jupyter-stacks-datascience",
+        ref: "master",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Ready";
+    });
+    
+    console.log("Thebe initialized with patched function");
+  }
+}
+</script>
+<script>
+// Define a safer initThebeSBT function with the plotly-enabled repository
+window.initThebeSBT = function() {
+  console.log("Safe initThebeSBT called - using updated repository with plotly");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Check if it looks like Python
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      bootstrapThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    bootstrapThebe();
+  }
+  
+  function bootstrapThebe() {
+    console.log("Bootstrapping Thebe with updated repository");
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "pythondecal/plotly-dash-binder",
+        ref: "master",
+        binderUrl: "https://mybinder.org",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update button loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Connecting to Plotly-enabled Binder...";
+    });
+    
+    // Listen for status changes
+    thebelab.on("status", function(_, data) {
+      console.log("Thebe status:", data.status);
+      document.querySelectorAll(".loading-text").forEach(el => {
+        el.textContent = data.status === "ready" ? "Ready!" : "Status: " + data.status;
+      });
+    });
+  }
+  
+  return false; // Prevent default action
+};
+
+// Also patch the regular initThebe function for good measure
+window.initThebe = window.initThebeSBT;
+</script>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../intro.html">
+<p class="title logo__title">Oscillatory Odyssey</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Swing to Space</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-1.html">🌀 Oscillatory Odyssey Part-1: Swings to Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/parametric_swing_demo.html">Parametric Pendulum Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/foucault_pendulum_demo.html">Foucault Pendulum Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spin and Light</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-2.html">🌀 Oscillatory Odyssey Part-2: Spin and Light</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/bicycle_wheel_gyroscope_demo.html">Bicycle Wheel Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/ring_laser_gyro_demo.html">Ring Laser Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hrg_demo.html">Hemispherical Resonator Gyro Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Resonance Rising</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-3.html">🌀 Oscillatory Odyssey Part-3: Resonance Rising</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/SharathSPhD/oscillatory-odyssey" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/SharathSPhD/oscillatory-odyssey/issues/new?title=Issue%20on%20page%20%2Foscillatory_odyssey/utils_api.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/oscillatory_odyssey/utils_api.md" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Utilities Module API Reference</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-management">Configuration Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-config"><code class="docutils literal notranslate"><span class="pre">load_config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-config"><code class="docutils literal notranslate"><span class="pre">save_config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-example-configs"><code class="docutils literal notranslate"><span class="pre">generate_example_configs</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-management">Data Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#export-results"><code class="docutils literal notranslate"><span class="pre">export_results</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-results"><code class="docutils literal notranslate"><span class="pre">import_results</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physics-calculations">Physics Calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-parametric-resonance-frequency"><code class="docutils literal notranslate"><span class="pre">calculate_parametric_resonance_frequency</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configurations">Example Configurations</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<div class="tex2jax_ignore mathjax_ignore section" id="module-oscillatory_odyssey.utils">
+<span id="utilities-module-api-reference"></span><h1>Utilities Module API Reference<a class="headerlink" href="#module-oscillatory_odyssey.utils" title="Permalink to this heading">#</a></h1>
+<p>Utility functions for the oscillatory_odyssey package.</p>
+<p>This module provides helper functions for configuration management,
+data processing, and other common tasks.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="oscillatory_odyssey.utils.calculate_parametric_resonance_frequency">
+<span class="sig-prename descclassname"><span class="pre">oscillatory_odyssey.utils.</span></span><span class="sig-name descname"><span class="pre">calculate_parametric_resonance_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9.81</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/utils.html#calculate_parametric_resonance_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.utils.calculate_parametric_resonance_frequency" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the parametric resonance frequency for a pendulum.</p>
+<dl class="simple">
+<dt>L0<span class="classifier">float</span></dt><dd><p>Base length of the pendulum (m)</p>
+</dd>
+<dt>g<span class="classifier">float, optional</span></dt><dd><p>Gravitational acceleration (m/s^2)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>float</dt><dd><p>Parametric resonance frequency (Hz)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="oscillatory_odyssey.utils.export_results">
+<span class="sig-prename descclassname"><span class="pre">oscillatory_odyssey.utils.</span></span><span class="sig-name descname"><span class="pre">export_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'simulation_results.npz'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/utils.html#export_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.utils.export_results" title="Permalink to this definition">#</a></dt>
+<dd><p>Export simulation results to a file.</p>
+<dl class="simple">
+<dt>results<span class="classifier">dict</span></dt><dd><p>Dictionary of simulation results</p>
+</dd>
+<dt>filename<span class="classifier">str, optional</span></dt><dd><p>Filename to save the results to</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>bool</dt><dd><p>True if successful, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="oscillatory_odyssey.utils.generate_example_configs">
+<span class="sig-prename descclassname"><span class="pre">oscillatory_odyssey.utils.</span></span><span class="sig-name descname"><span class="pre">generate_example_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'config'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/utils.html#generate_example_configs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.utils.generate_example_configs" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate example configuration files for different scenarios.</p>
+<dl class="simple">
+<dt>base_dir<span class="classifier">str, optional</span></dt><dd><p>Directory to save the configuration files</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>list</dt><dd><p>List of saved configuration filenames</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="oscillatory_odyssey.utils.import_results">
+<span class="sig-prename descclassname"><span class="pre">oscillatory_odyssey.utils.</span></span><span class="sig-name descname"><span class="pre">import_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/utils.html#import_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.utils.import_results" title="Permalink to this definition">#</a></dt>
+<dd><p>Import simulation results from a file.</p>
+<dl class="simple">
+<dt>filename<span class="classifier">str</span></dt><dd><p>Path to the results file</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>dict or None</dt><dd><p>Dictionary of simulation results if successful, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="oscillatory_odyssey.utils.load_config">
+<span class="sig-prename descclassname"><span class="pre">oscillatory_odyssey.utils.</span></span><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/utils.html#load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.utils.load_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Load a configuration dictionary from a file.</p>
+<dl class="simple">
+<dt>filename<span class="classifier">str</span></dt><dd><p>Path to the configuration file</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>dict or None</dt><dd><p>Dictionary of parameters if successful, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="oscillatory_odyssey.utils.save_config">
+<span class="sig-prename descclassname"><span class="pre">oscillatory_odyssey.utils.</span></span><span class="sig-name descname"><span class="pre">save_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'config.yaml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oscillatory_odyssey/utils.html#save_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscillatory_odyssey.utils.save_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Save a configuration dictionary to a file.</p>
+<dl class="simple">
+<dt>params<span class="classifier">dict</span></dt><dd><p>Dictionary of parameters to save</p>
+</dd>
+<dt>filename<span class="classifier">str, optional</span></dt><dd><p>Filename to save the configuration to</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>bool</dt><dd><p>True if successful, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>The utils module provides helper functions for configuration management, data processing, and other common tasks used throughout the Oscillatory Odyssey package.</p>
+</div>
+<div class="section" id="configuration-management">
+<h2>Configuration Management<a class="headerlink" href="#configuration-management" title="Permalink to this heading">#</a></h2>
+<div class="section" id="load-config">
+<h3><code class="docutils literal notranslate"><span class="pre">load_config</span></code><a class="headerlink" href="#load-config" title="Permalink to this heading">#</a></h3>
+<p>Loads a configuration dictionary from a file. Supports YAML and JSON formats.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre class="thebe" data-executable="true" data-language="python"><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_config</span>
+
+<span class="c1"># Load a configuration from a YAML file</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="s1">'config/example_config.yaml'</span><span class="p">)</span>
+
+<span class="c1"># Use the configuration</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Base length: </span><span class="si">{</span><span class="n">config</span><span class="p">[</span><span class="s1">'L0'</span><span class="p">]</span><span class="si">}</span><span class="s2"> m"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Pumping strategy: </span><span class="si">{</span><span class="n">config</span><span class="p">[</span><span class="s1">'pumping_strategy'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="save-config">
+<h3><code class="docutils literal notranslate"><span class="pre">save_config</span></code><a class="headerlink" href="#save-config" title="Permalink to this heading">#</a></h3>
+<p>Saves a configuration dictionary to a file. Supports YAML and JSON formats.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre class="thebe" data-executable="true" data-language="python"><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_config</span>
+
+<span class="c1"># Create a configuration dictionary</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"L0"</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span>
+    <span class="s2">"delta_L"</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>
+    <span class="s2">"pumping_strategy"</span><span class="p">:</span> <span class="s2">"adaptive"</span><span class="p">,</span>
+    <span class="s2">"damping"</span><span class="p">:</span> <span class="mf">0.1</span>
+<span class="p">}</span>
+
+<span class="c1"># Save to a YAML file</span>
+<span class="n">save_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s1">'my_config.yaml'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generate-example-configs">
+<h3><code class="docutils literal notranslate"><span class="pre">generate_example_configs</span></code><a class="headerlink" href="#generate-example-configs" title="Permalink to this heading">#</a></h3>
+<p>Generates example configuration files for different scenarios.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre class="thebe" data-executable="true" data-language="python"><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_example_configs</span>
+
+<span class="c1"># Generate example configuration files in the specified directory</span>
+<span class="n">saved_files</span> <span class="o">=</span> <span class="n">generate_example_configs</span><span class="p">(</span><span class="s1">'my_configs'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generated </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">saved_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> configuration files"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="data-management">
+<h2>Data Management<a class="headerlink" href="#data-management" title="Permalink to this heading">#</a></h2>
+<div class="section" id="export-results">
+<h3><code class="docutils literal notranslate"><span class="pre">export_results</span></code><a class="headerlink" href="#export-results" title="Permalink to this heading">#</a></h3>
+<p>Exports simulation results to a NumPy compressed file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre class="thebe" data-executable="true" data-language="python"><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_results</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.pendulum</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParametricPendulum</span>
+
+<span class="c1"># Run a simulation</span>
+<span class="n">pendulum</span> <span class="o">=</span> <span class="n">ParametricPendulum</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pendulum</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="c1"># Export the results</span>
+<span class="n">export_results</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="s1">'my_simulation.npz'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="import-results">
+<h3><code class="docutils literal notranslate"><span class="pre">import_results</span></code><a class="headerlink" href="#import-results" title="Permalink to this heading">#</a></h3>
+<p>Imports simulation results from a NumPy compressed file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre class="thebe" data-executable="true" data-language="python"><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_results</span>
+
+<span class="c1"># Import previously saved results</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">import_results</span><span class="p">(</span><span class="s1">'my_simulation.npz'</span><span class="p">)</span>
+
+<span class="c1"># Use the results</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s1">'theta'</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Time (s)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Angle (rad)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="physics-calculations">
+<h2>Physics Calculations<a class="headerlink" href="#physics-calculations" title="Permalink to this heading">#</a></h2>
+<div class="section" id="calculate-parametric-resonance-frequency">
+<h3><code class="docutils literal notranslate"><span class="pre">calculate_parametric_resonance_frequency</span></code><a class="headerlink" href="#calculate-parametric-resonance-frequency" title="Permalink to this heading">#</a></h3>
+<p>Calculates the parametric resonance frequency for a pendulum based on its length.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre class="thebe" data-executable="true" data-language="python"><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oscillatory_odyssey.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_parametric_resonance_frequency</span>
+
+<span class="c1"># Calculate the optimal pumping frequency for a 2.5m pendulum</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">calculate_parametric_resonance_frequency</span><span class="p">(</span><span class="n">L0</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Optimal pumping frequency: </span><span class="si">{</span><span class="n">freq</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> Hz"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="example-configurations">
+<h2>Example Configurations<a class="headerlink" href="#example-configurations" title="Permalink to this heading">#</a></h2>
+<p>The utils module includes several predefined configurations:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">default_config.yaml</span></code>: Basic parametric pendulum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resonant_config.yaml</span></code>: Pendulum pumped at the resonant frequency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">damped_config.yaml</span></code>: Heavily damped pendulum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">square_config.yaml</span></code>: Pendulum with square wave pumping</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">adaptive_config.yaml</span></code>: Pendulum with adaptive pumping strategy</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">playground_config.yaml</span></code>: Realistic playground swing parameters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foucault_config.yaml</span></code>: Long pendulum with minimal damping</p></li>
+</ul>
+</div>
+</div>
+<script type="text/x-thebe-config">{
+    "requestKernel": true,
+    "binderOptions": {
+        "repo": "pythondecal/plotly-dash-binder",
+        "ref": "master"
+    },
+    "codeMirrorConfig": {
+        "theme": "abcdef",
+        "mode": "python"
+    },
+    "kernelOptions": {
+        "name": "python3",
+        "path": "./notebooks"
+    },
+    "predefinedOutput": true,
+    "mountActivateWidget": true,
+    "stripPrompts": true,
+    "useKernelCaching": true,
+    "debug": true
+}</script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="prev-next-footer">
+<div class="prev-next-area">
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+<div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+<i class="fa-solid fa-list"></i> Contents
+  </div>
+<nav class="bd-toc-nav page-toc">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-management">Configuration Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-config"><code class="docutils literal notranslate"><span class="pre">load_config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-config"><code class="docutils literal notranslate"><span class="pre">save_config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-example-configs"><code class="docutils literal notranslate"><span class="pre">generate_example_configs</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-management">Data Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#export-results"><code class="docutils literal notranslate"><span class="pre">export_results</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-results"><code class="docutils literal notranslate"><span class="pre">import_results</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physics-calculations">Physics Calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-parametric-resonance-frequency"><code class="docutils literal notranslate"><span class="pre">calculate_parametric_resonance_frequency</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configurations">Example Configurations</a></li>
+</ul>
+</nav></div>
+</div></div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Your Name
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>

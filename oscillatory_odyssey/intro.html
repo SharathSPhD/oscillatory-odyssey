@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<!-- Patched Thebe loader -->
+<script>
+// Add the patched Thebe loader
+document.addEventListener('DOMContentLoaded', function() {
+    const script = document.createElement('script');
+    script.src = '../_static/thebe-patched/thebe-loader.js';
+    document.head.appendChild(script);
+    
+    // Disable standard Thebe initialization to avoid conflicts
+    window.thebe_originally_defined = true;
+});
+</script>
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Introduction to Parametric Pendulums — Oscillatory Odyssey</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/jupyter-sphinx.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/thebelab.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" rel="preload"/>
+<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" rel="preload"/>
+<script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/clipboard.min.js"></script>
+<script src="../_static/copybutton.js"></script>
+<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../_static/design-tabs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+<script>
+const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = "div.cell, div.highlight pre, pre.highlight, pre, .thebe"
+const thebe_selector_input = "pre, .highlight-python pre, pre.python"
+const thebe_selector_output = "div.output"
+</script>
+<script async="async" src="../_static/thebe_versions/thebe-0.8.2.js"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'oscillatory_odyssey/intro';</script>
+<link href="/oscillatory-odyssey/oscillatory_odyssey/intro.html" rel="canonical"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<script defer="True" src="../_static/thebe-cell-fixer.js"></script><script>
+// Patched initThebe function
+function initThebe() {
+  console.log("Patched initThebe called");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Look for python code
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      startThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    startThebe();
+  }
+  
+  function startThebe() {
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "binder-examples/jupyter-stacks-datascience",
+        ref: "master",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Ready";
+    });
+    
+    console.log("Thebe initialized with patched function");
+  }
+}
+</script>
+<script>
+// Define a safer initThebeSBT function with the plotly-enabled repository
+window.initThebeSBT = function() {
+  console.log("Safe initThebeSBT called - using updated repository with plotly");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Check if it looks like Python
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      bootstrapThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    bootstrapThebe();
+  }
+  
+  function bootstrapThebe() {
+    console.log("Bootstrapping Thebe with updated repository");
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "pythondecal/plotly-dash-binder",
+        ref: "master",
+        binderUrl: "https://mybinder.org",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update button loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Connecting to Plotly-enabled Binder...";
+    });
+    
+    // Listen for status changes
+    thebelab.on("status", function(_, data) {
+      console.log("Thebe status:", data.status);
+      document.querySelectorAll(".loading-text").forEach(el => {
+        el.textContent = data.status === "ready" ? "Ready!" : "Status: " + data.status;
+      });
+    });
+  }
+  
+  return false; // Prevent default action
+};
+
+// Also patch the regular initThebe function for good measure
+window.initThebe = window.initThebeSBT;
+</script>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../intro.html">
+<p class="title logo__title">Oscillatory Odyssey</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Swing to Space</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-1.html">🌀 Oscillatory Odyssey Part-1: Swings to Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/parametric_swing_demo.html">Parametric Pendulum Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/foucault_pendulum_demo.html">Foucault Pendulum Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spin and Light</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-2.html">🌀 Oscillatory Odyssey Part-2: Spin and Light</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/bicycle_wheel_gyroscope_demo.html">Bicycle Wheel Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/ring_laser_gyro_demo.html">Ring Laser Gyroscope Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hrg_demo.html">Hemispherical Resonator Gyro Simulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Resonance Rising</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/oscillatory_odyssey_Part-3.html">🌀 Oscillatory Odyssey Part-3: Resonance Rising</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/SharathSPhD/oscillatory-odyssey" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/SharathSPhD/oscillatory-odyssey/issues/new?title=Issue%20on%20page%20%2Foscillatory_odyssey/intro.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/oscillatory_odyssey/intro.md" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Introduction to Parametric Pendulums</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-playground-physics-to-precision-science">From Playground Physics to Precision Science</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-parametric-pendulum">What is a Parametric Pendulum?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-it-work">How Does It Work?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-description">Mathematical Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-this-book">In This Book</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<div class="tex2jax_ignore mathjax_ignore section" id="introduction-to-parametric-pendulums">
+<h1>Introduction to Parametric Pendulums<a class="headerlink" href="#introduction-to-parametric-pendulums" title="Permalink to this heading">#</a></h1>
+<div class="section" id="from-playground-physics-to-precision-science">
+<h2>From Playground Physics to Precision Science<a class="headerlink" href="#from-playground-physics-to-precision-science" title="Permalink to this heading">#</a></h2>
+<p>Have you ever watched a child on a swing, pumping their legs with perfect rhythm, soaring higher and higher into the sky? That simple act - one we’ve all experienced but perhaps never truly understood - holds the key to some fascinating physics and has connections to sophisticated scientific instruments and phenomena.</p>
+</div>
+<div class="section" id="what-is-a-parametric-pendulum">
+<h2>What is a Parametric Pendulum?<a class="headerlink" href="#what-is-a-parametric-pendulum" title="Permalink to this heading">#</a></h2>
+<p>A parametric pendulum is a pendulum where one of the system parameters (typically the length) varies with time. This variation can lead to an increase in the pendulum’s amplitude over time, even without applying any direct force to the pendulum.</p>
+<p>The most common example is a playground swing, where a child changes their body position (effectively changing the pendulum’s length) at specific moments to increase the amplitude of the swing.</p>
+</div>
+<div class="section" id="how-does-it-work">
+<h2>How Does It Work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this heading">#</a></h2>
+<p>When you pump a swing, you’re essentially changing the effective length of the pendulum:</p>
+<ol class="arabic simple">
+<li><p><strong>Shortening at the bottom:</strong> By squatting or pulling up your legs when the swing passes through the lowest point, you’re shortening the pendulum at a moment when it has maximum velocity. This increases your angular velocity.</p></li>
+<li><p><strong>Lengthening at the extremes:</strong> By standing or extending your legs when the swing reaches its highest points, you’re lengthening the pendulum at a moment when it has maximum potential energy. This increases the potential energy of the system.</p></li>
+<li><p><strong>Repeating this cycle:</strong> By systematically repeating this pattern, you’re adding energy to the system with each oscillation, causing the swing to go higher and higher.</p></li>
+</ol>
+</div>
+<div class="section" id="mathematical-description">
+<h2>Mathematical Description<a class="headerlink" href="#mathematical-description" title="Permalink to this heading">#</a></h2>
+<p>The equation of motion for a parametric pendulum is:</p>
+<div class="math notranslate nohighlight">
+\[\frac{d^2 \theta}{dt^2} + \frac{g}{l(t)} \sin(\theta) + c\frac{d\theta}{dt} + \frac{2}{l(t)} \frac{dl}{dt} \frac{d\theta}{dt} = 0\]</div>
+<p>For maximum effectiveness, the length should be varied at approximately twice the natural frequency of the pendulum:</p>
+<div class="math notranslate nohighlight">
+\[f_{pumping} \approx 2 \cdot f_{natural} = \frac{1}{\pi}\sqrt{\frac{g}{l}}\]</div>
+<p>This is known as the parametric resonance condition.</p>
+</div>
+<div class="section" id="in-this-book">
+<h2>In This Book<a class="headerlink" href="#in-this-book" title="Permalink to this heading">#</a></h2>
+<p>This Jupyter Book will guide you through the fascinating world of parametric pendulums, from the basic physics to interactive simulations. You’ll learn:</p>
+<ul class="simple">
+<li><p>The mathematical principles behind parametric excitation</p></li>
+<li><p>How different pumping strategies affect the pendulum’s motion</p></li>
+<li><p>The role of damping in limiting the maximum amplitude</p></li>
+<li><p>Connections to real-world systems, from playground swings to sophisticated scientific instruments</p></li>
+<li><p>How to use the Oscillatory Odyssey package to explore these concepts yourself</p></li>
+</ul>
+<p>So join us on this oscillatory odyssey, where playground physics meets precision science!</p>
+</div>
+</div>
+<script type="text/x-thebe-config">{
+    "requestKernel": true,
+    "binderOptions": {
+        "repo": "pythondecal/plotly-dash-binder",
+        "ref": "master"
+    },
+    "codeMirrorConfig": {
+        "theme": "abcdef",
+        "mode": "python"
+    },
+    "kernelOptions": {
+        "name": "python3",
+        "path": "./notebooks"
+    },
+    "predefinedOutput": true,
+    "mountActivateWidget": true,
+    "stripPrompts": true,
+    "useKernelCaching": true,
+    "debug": true
+}</script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="prev-next-footer">
+<div class="prev-next-area">
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+<div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+<i class="fa-solid fa-list"></i> Contents
+  </div>
+<nav class="bd-toc-nav page-toc">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-playground-physics-to-precision-science">From Playground Physics to Precision Science</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-parametric-pendulum">What is a Parametric Pendulum?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-it-work">How Does It Work?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-description">Mathematical Description</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-this-book">In This Book</a></li>
+</ul>
+</nav></div>
+</div></div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Your Name
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>

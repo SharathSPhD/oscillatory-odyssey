@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal Thebe Demo</title>
+    <script src="https://unpkg.com/thebe@0.8.2/lib/index.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; line-height: 1.6; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        button { 
+            padding: 10px 15px; 
+            background: #4CAF50; 
+            color: white; 
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+        button:hover { background: #45a049; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .waiting { background: #fff3e0; }
+        .ready { background: #e8f5e9; }
+        .error { background: #ffebee; }
+    </style>
+</head>
+<body>
+    <h1>Minimal Thebe Demo</h1>
+    <p>This is a minimal example showing Thebe working with a simple Python code cell.</p>
+    
+    <button id="activateButton">Activate Thebe</button>
+    <div id="status" class="status waiting">Click the button to start Thebe</div>
+    
+    <h2>Simple Python Example</h2>
+    <pre id="simple-example" data-executable="true" data-language="python">
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate some data
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# Create a simple plot
+plt.figure(figsize=(8, 4))
+plt.plot(x, y)
+plt.title('Simple Sine Wave')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.grid(True)
+plt.show()
+    </pre>
+    
+    <script>
+        // Initialize when the button is clicked
+        document.getElementById('activateButton').addEventListener('click', function() {
+            // Update status
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = 'Connecting to Binder...';
+            statusEl.className = 'status waiting';
+            this.disabled = true;
+            
+            // Initialize Thebe
+            thebelab.bootstrap({
+                binderOptions: {
+                    repo: "binder-examples/jupyter-stacks-datascience",
+                    ref: "HEAD",
+                    binderUrl: "https://mybinder.org"
+                },
+                kernelOptions: {
+                    name: "python3"
+                },
+                selector: "#simple-example",
+                requestKernel: true,
+                mountActivateWidget: true
+            });
+            
+            // Listen for status changes
+            thebelab.on('status', function(_, data) {
+                console.log('Thebe status:', data.status);
+                statusEl.textContent = 'Status: ' + data.status;
+                
+                if (data.status === 'ready') {
+                    statusEl.textContent = 'Ready! You can now run the code.';
+                    statusEl.className = 'status ready';
+                } else if (data.status === 'failed') {
+                    statusEl.textContent = 'Error: ' + (data.message || 'Failed to connect');
+                    statusEl.className = 'status error';
+                }
+            });
+        });
+    </script>
+    
+    <h2>Instructions</h2>
+    <ol>
+        <li>Make sure you're accessing this page through a web server (http://localhost:8000)</li>
+        <li>Click the "Activate Thebe" button above</li>
+        <li>Wait for the connection to be established (may take a minute)</li>
+        <li>Once ready, you'll see a "Run" button appear in the code cell</li>
+        <li>Click "Run" to execute the code and see the plot</li>
+    </ol>
+    
+    <h2>If This Works But Your Book Doesn't</h2>
+    <p>If this minimal example works but your Jupyter Book still has issues:</p>
+    <ol>
+        <li>The problem is likely related to specific packages your notebooks need</li>
+        <li>Create a custom Binder repository with all required packages</li>
+        <li>Update the Thebe configuration to use your custom repository</li>
+    </ol>
+    
+    <p><strong>Note:</strong> First-time connections to Binder may take several minutes to build the environment.</p>
+</body>
+</html>

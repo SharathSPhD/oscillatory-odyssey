@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<!-- Patched Thebe loader -->
+<script>
+// Add the patched Thebe loader
+document.addEventListener('DOMContentLoaded', function() {
+    const script = document.createElement('script');
+    script.src = '../_static/thebe-patched/thebe-loader.js';
+    document.head.appendChild(script);
+    
+    // Disable standard Thebe initialization to avoid conflicts
+    window.thebe_originally_defined = true;
+});
+</script>
+
+<title>Thebe Cell Detection Test</title>
+<script src="./_static/thebe_versions/thebe-0.8.2.js"></script>
+<script defer="" src="./_static/thebe-cell-fixer.js"></script>
+
+<style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 4px; }
+        .container { margin: 20px 0; }
+        .highlight-python { background: #f5f5f5; padding: 10px; border-radius: 4px; }
+    </style>
+<script>
+// Patched initThebe function
+function initThebe() {
+  console.log("Patched initThebe called");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Look for python code
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      startThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    startThebe();
+  }
+  
+  function startThebe() {
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "binder-examples/jupyter-stacks-datascience",
+        ref: "master",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Ready";
+    });
+    
+    console.log("Thebe initialized with patched function");
+  }
+}
+</script>
+<script>
+// Define a safer initThebeSBT function with the plotly-enabled repository
+window.initThebeSBT = function() {
+  console.log("Safe initThebeSBT called - using updated repository with plotly");
+  
+  // First prepare all code cells
+  const codeCells = document.querySelectorAll("pre");
+  codeCells.forEach((cell, index) => {
+    // Check if it looks like Python
+    if (cell.textContent.includes("import") || 
+        cell.textContent.includes("print") || 
+        cell.textContent.includes("plt.") || 
+        cell.textContent.includes("np.")) {
+      
+      cell.setAttribute("data-executable", "true");
+      cell.setAttribute("data-language", "python");
+      
+      if (!cell.id) {
+        cell.id = "cell-" + index;
+      }
+      console.log("Enhanced cell: " + cell.id);
+    }
+  });
+  
+  // Load thebe if needed
+  if (typeof thebelab === "undefined") {
+    console.log("Loading Thebe from CDN");
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/thebe@0.8.2/lib/index.js";
+    
+    script.onload = function() {
+      bootstrapThebe();
+    };
+    
+    document.head.appendChild(script);
+  } else {
+    bootstrapThebe();
+  }
+  
+  function bootstrapThebe() {
+    console.log("Bootstrapping Thebe with updated repository");
+    thebelab.bootstrap({
+      binderOptions: {
+        repo: "pythondecal/plotly-dash-binder",
+        ref: "master",
+        binderUrl: "https://mybinder.org",
+      },
+      kernelOptions: {
+        name: "python3",
+        path: "./notebooks"
+      },
+      selector: "pre[data-executable='true']",
+      requestKernel: true,
+      mountActivateWidget: true
+    });
+    
+    // Update button loading messages
+    document.querySelectorAll(".loading-text").forEach(el => {
+      el.textContent = "Connecting to Plotly-enabled Binder...";
+    });
+    
+    // Listen for status changes
+    thebelab.on("status", function(_, data) {
+      console.log("Thebe status:", data.status);
+      document.querySelectorAll(".loading-text").forEach(el => {
+        el.textContent = data.status === "ready" ? "Ready!" : "Status: " + data.status;
+      });
+    });
+  }
+  
+  return false; // Prevent default action
+};
+
+// Also patch the regular initThebe function for good measure
+window.initThebe = window.initThebeSBT;
+</script>
+</head>
+<body>
+<h1>Thebe Cell Detection Test</h1>
+<p>This page tests various cell formats to see which ones Thebe detects:</p>
+<h2>1. Standard pre tag:</h2>
+<div class="container">
+<pre data-executable="true" data-language="python" id="cell1">
+import numpy as np
+print("Hello from a standard pre tag")
+        </pre>
+</div>
+<h2>2. Highlight-python div with pre:</h2>
+<div class="container">
+<div class="highlight-python">
+<pre data-executable="true" data-language="python" id="cell2">
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3, 4])
+plt.show()
+            </pre>
+</div>
+</div>
+<h2>3. Pre with python class:</h2>
+<div class="container">
+<pre class="python" id="cell3">
+def greet(name):
+    return f"Hello, {name}!"
+    
+print(greet("World"))
+        </pre>
+</div>
+<h2>4. Cell div format:</h2>
+<div class="container">
+<div class="cell">
+<pre id="cell4">
+import pandas as pd
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+print(df)
+            </pre>
+<div class="output">
+<pre>
+   A  B
+0  1  4
+1  2  5
+2  3  6
+                </pre>
+</div>
+</div>
+</div>
+<div id="status"></div>
+<h2>Troubleshooting</h2>
+<ul>
+<li>Open browser devtools (F12) to see which cells are detected</li>
+<li>Look for elements with the class 'thebelab-cell' after loading</li>
+<li>Check console for any errors during initialization</li>
+</ul>
+</body>
+</html>
